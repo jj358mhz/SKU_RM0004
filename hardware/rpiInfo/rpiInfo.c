@@ -16,7 +16,36 @@
 #include <fcntl.h>
 #include "st7735.h"
 #include <stdlib.h>
+#include <strings.h>
 #include <sys/statvfs.h>
+
+display_config_t g_display_config = {
+    .temperature_type = CELSIUS,
+    .ip_switch = IP_DISPLAY_OPEN,
+    .custom_display = "UCTRONICS",
+};
+
+void load_display_config(void)
+{
+    const char *temp_unit = getenv("LCD_TEMP_UNIT");
+    if (temp_unit != NULL && (temp_unit[0] == 'F' || temp_unit[0] == 'f'))
+    {
+        g_display_config.temperature_type = FAHRENHEIT;
+    }
+
+    const char *ip_switch = getenv("LCD_IP_SWITCH");
+    if (ip_switch != NULL && strcasecmp(ip_switch, "close") == 0)
+    {
+        g_display_config.ip_switch = IP_DISPLAY_CLOSE;
+    }
+
+    const char *custom_text = getenv("LCD_CUSTOM_TEXT");
+    if (custom_text != NULL)
+    {
+        strncpy(g_display_config.custom_display, custom_text, sizeof(g_display_config.custom_display) - 1);
+        g_display_config.custom_display[sizeof(g_display_config.custom_display) - 1] = '\0';
+    }
+}
 
 /*
 * Get the IP address of eth0, falling back to wlan0
@@ -164,7 +193,7 @@ uint8_t get_temperature(void)
     fgets(buff,sizeof(buff),fd);
     sscanf(buff, "%d", &temp);
     fclose(fd);
-    return TEMPERATURE_TYPE == FAHRENHEIT ? temp/1000*1.8+32 : temp/1000;
+    return g_display_config.temperature_type == FAHRENHEIT ? temp/1000*1.8+32 : temp/1000;
 }
 
 /*

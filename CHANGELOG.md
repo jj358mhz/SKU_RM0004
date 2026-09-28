@@ -10,6 +10,22 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-09-28
+
+### Added
+- [#10](https://github.com/jj358mhz/SKU_RM0004/issues/10) — Display preferences (temperature
+  unit, whether to show the IP or a custom string, and that custom string) are now
+  runtime-configurable via environment variables instead of compile-time `#define`s, so a
+  preference change no longer requires a rebuild:
+  - `LCD_TEMP_UNIT=F|C` (default `C`)
+  - `LCD_IP_SWITCH=open|close` (default `open`)
+  - `LCD_CUSTOM_TEXT=<text>` (default `UCTRONICS`, shown on the IP line when
+    `LCD_IP_SWITCH=close`)
+
+  Loaded once at startup by `load_display_config()`. Defaults match the previous compile-time
+  values exactly, so this is a no-behavior-change bump unless the new env vars are set (e.g.
+  via `Environment=` in the `lcd_display.service` systemd unit).
+
 ## [0.9.0] - 2026-09-28
 
 ### Added
