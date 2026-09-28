@@ -10,6 +10,25 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-09-28
+
+### Removed
+- [#8](https://github.com/jj358mhz/SKU_RM0004/issues/8) — `get_ip_address()`: dead code, fully
+  superseded by `get_ip_address_new()` (the eth0→wlan0 fallback version, the only one actually
+  called). Its `IPADDRESS_TYPE`/`ETH0_ADDRESS`/`WLAN0_ADDRESS` `#define`s were only referenced
+  there, so those went too.
+
+### Changed
+- [#8](https://github.com/jj358mhz/SKU_RM0004/issues/8) — `get_cpu_memory()` now converts
+  `/proc/meminfo`'s KB values to GiB via binary `/1024.0/1024.0` instead of decimal
+  `/1000.0/1000.0`, matching the binary-GB convention already used by `get_sd_memory()`/
+  `get_hard_disk_memory()`.
+
+### Fixed
+- [#8](https://github.com/jj358mhz/SKU_RM0004/issues/8) — cosmetic: `project/display.c`'s
+  main loop had two consecutive `sleep(1)` calls instead of one `sleep(2)`; a leftover German
+  comment (`// Fehler`) in `get_hard_disk_memory()` translated to English.
+
 ## [0.7.0] - 2026-09-28
 
 ### Fixed

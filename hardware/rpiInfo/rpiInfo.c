@@ -19,58 +19,8 @@
 #include <sys/statvfs.h>
 
 /*
-* Get the IP address of wlan0 or eth0
+* Get the IP address of eth0, falling back to wlan0
 */
-
-char* get_ip_address(void)
-{
-    int fd;
-    struct ifreq ifr;
-    int symbol=0;
-    if (IPADDRESS_TYPE == ETH0_ADDRESS)
-    {
-      fd = socket(AF_INET, SOCK_DGRAM, 0);
-      /* I want to get an IPv4 IP address */
-      ifr.ifr_addr.sa_family = AF_INET;
-      /* I want IP address attached to "eth0" */
-      strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1);
-      symbol=ioctl(fd, SIOCGIFADDR, &ifr);
-      close(fd);
-      if(symbol==0)
-      {
-        return inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr);
-      }
-      else
-      {
-        char* buffer="xxx.xxx.xxx.xxx";
-        return buffer;
-      }
-    }
-    else if (IPADDRESS_TYPE == WLAN0_ADDRESS)
-    {
-        fd = socket(AF_INET, SOCK_DGRAM, 0);
-        /* I want to get an IPv4 IP address */
-        ifr.ifr_addr.sa_family = AF_INET;
-        /* I want IP address attached to "wlan0" */
-        strncpy(ifr.ifr_name, "wlan0", IFNAMSIZ-1);
-        symbol=ioctl(fd, SIOCGIFADDR, &ifr);
-        close(fd);    
-        if(symbol==0)
-        {
-          return inet_ntoa(((struct sockaddr_in *)&ifr.ifr_addr)->sin_addr);   
-        }
-        else
-        {
-          char* buffer="xxx.xxx.xxx.xxx";
-          return buffer;
-        }
-    }
-    else
-    {
-      char* buffer="xxx.xxx.xxx.xxx";
-      return buffer;
-    }
-}
 
 char* get_ip_address_new(void)
 {
@@ -142,11 +92,11 @@ void get_cpu_memory(float *Totalram,float *freeram)
             }
             if(strcmp(famer,"MemTotal:")==0)
             {
-             *Totalram=value/1000.0/1000.0;
+             *Totalram=value/1024.0/1024.0;
             }
             else if(strcmp(famer,"MemAvailable:")==0)
             {
-              *freeram=value/1000.0/1000.0;
+              *freeram=value/1024.0/1024.0;
             }
         }
         fclose(fp);
@@ -184,7 +134,7 @@ uint8_t get_hard_disk_memory(uint32_t *diskMemSize, uint32_t *useMemSize)
     if (statvfs("/", &fs) != 0) {
         *diskMemSize = 0;
         *useMemSize = 0;
-        return 1; // Fehler
+        return 1; // Error
     }
 
     unsigned long long total = (unsigned long long) fs.f_blocks * fs.f_frsize;
