@@ -10,6 +10,15 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-09-28
+
+### Fixed
+- [#4](https://github.com/jj358mhz/SKU_RM0004/issues/4) — `get_temperature()` could crash the
+  service: `fopen("/sys/class/thermal/thermal_zone0/temp")`'s return value was never checked,
+  so a missing thermal zone (different kernel/hardware) caused a NULL-pointer dereference in
+  the following `fgets()`. Now returns `0` instead of dereferencing NULL when the file can't
+  be opened.
+
 ## [0.3.0] - 2026-09-28
 
 ### Fixed

@@ -204,13 +204,17 @@ uint8_t get_hard_disk_memory(uint32_t *diskMemSize, uint32_t *useMemSize)
 uint8_t get_temperature(void)
 {
     FILE *fd;
-    unsigned int temp;
+    unsigned int temp = 0;
     char buff[10] = {0};
     fd = fopen("/sys/class/thermal/thermal_zone0/temp","r");
+    if (fd == NULL)
+    {
+        return 0;
+    }
     fgets(buff,sizeof(buff),fd);
     sscanf(buff, "%d", &temp);
     fclose(fd);
-    return TEMPERATURE_TYPE == FAHRENHEIT ? temp/1000*1.8+32 : temp/1000;    
+    return TEMPERATURE_TYPE == FAHRENHEIT ? temp/1000*1.8+32 : temp/1000;
 }
 
 /*
