@@ -42,6 +42,14 @@ void lcd_write_char(uint16_t x, uint16_t y, char ch, FontDef font, uint16_t colo
 {
     uint32_t i, b, j;
 
+    // Font tables only cover printable ASCII (32-126); clamp anything outside that range to
+    // a space so an unexpected byte can't index out of bounds of font.data. Cast to unsigned
+    // char first so this works whether char is signed or unsigned on the target platform.
+    if ((unsigned char)ch < 32 || (unsigned char)ch > 126)
+    {
+        ch = ' ';
+    }
+
     lcd_set_address_window(x, y, x + font.width - 1, y + font.height - 1);
 
     for (i = 0; i < font.height; i++)
@@ -174,10 +182,8 @@ void lcd_fill_screen(uint16_t color)
 
 void lcd_draw_image(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data)
 {
-    uint16_t col = h - y;
-    uint16_t row = w - x;
     lcd_set_address_window(x, y, x + w - 1, y + h - 1);
-    i2c_burst_transfer(data, sizeof(uint16_t) * col * row);
+    i2c_burst_transfer(data, sizeof(uint16_t) * w * h);
 }
 
 uint8_t lcd_begin(void)

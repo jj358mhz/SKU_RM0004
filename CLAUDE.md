@@ -65,8 +65,10 @@ percentage ([#14](https://github.com/jj358mhz/SKU_RM0004/issues/14)), a crash on
 thermal zone ([#4](https://github.com/jj358mhz/SKU_RM0004/issues/4)), and corrupted CPU load
 readings above ~10% ([#3](https://github.com/jj358mhz/SKU_RM0004/issues/3)) — are fixed as of
 v0.2.0, v0.3.0, v0.4.0, and v0.5.0 respectively. [#5](https://github.com/jj358mhz/SKU_RM0004/issues/5)
-(`lcd_fill_rectangle()` zero-width underflow + magic buffer size) is fixed as of v0.6.0.
-Remaining open issues (#6-#10) are lower-severity or currently dormant.
+(`lcd_fill_rectangle()` zero-width underflow + magic buffer size) is fixed as of v0.6.0, and
+[#6](https://github.com/jj358mhz/SKU_RM0004/issues/6)/[#7](https://github.com/jj358mhz/SKU_RM0004/issues/7)
+(`lcd_draw_image()` math + `lcd_write_char()` bounds check) as of v0.7.0. Remaining open
+issues (#8-#10) are lower-severity or currently dormant.
 
 ## Keeping docs current
 
