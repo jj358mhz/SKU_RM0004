@@ -10,6 +10,19 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-09-28
+
+### Fixed
+- [#6](https://github.com/jj358mhz/SKU_RM0004/issues/6) — `lcd_draw_image()`: `col`/`row` were
+  computed as `h - y`/`w - x` instead of just `h`/`w`, which would have transferred the wrong
+  number of bytes (or underflowed if `y > h`/`x > w`) had this function ever been called —
+  currently dead code, not called anywhere. Simplified to pass `w`/`h` directly, matching the
+  convention already used by `lcd_fill_rectangle()`.
+- [#7](https://github.com/jj358mhz/SKU_RM0004/issues/7) — `lcd_write_char()`: no bounds check
+  on the character index into the font bitmap table (`font.data[(ch - 32) * font.height + i]`)
+  — a non-printable/out-of-ASCII-range `ch` would read out of bounds. Now clamps anything
+  outside the supported `32-126` range to a space before indexing.
+
 ## [0.6.0] - 2026-09-28
 
 ### Fixed
