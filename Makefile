@@ -1,5 +1,6 @@
 TATGET := display
 CC     := gcc
+CFLAGS ?= -Wall -Wextra
 
 OBJ := obj
 
@@ -22,7 +23,7 @@ VPATH := $(SRCDIRS)
 $(TATGET):$(OBJS)
 	$(CC) -o $@ $^
 $(OBJS) : obj/%.o : %.c
-	$(CC) -c $(INCLUDE) -o $@ $<
+	$(CC) -c $(CFLAGS) $(INCLUDE) -o $@ $<
 
 
 clean:

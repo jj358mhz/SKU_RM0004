@@ -10,6 +10,18 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-09-28
+
+### Added
+- [#9](https://github.com/jj358mhz/SKU_RM0004/issues/9) — CI: a GitHub Actions workflow
+  (`.github/workflows/build.yml`) now runs `make clean && make` on every push/PR, so a broken
+  build is caught immediately instead of only when someone next runs the `ansible-homelab`
+  playbook against real hardware.
+- The `Makefile` gained a `CFLAGS` variable (defaulting to `-Wall -Wextra`) so warnings are
+  visible in CI output. Kept non-fatal (no `-Werror`) since the same `Makefile` is what the
+  `uctronics_rack` ansible role runs on real Pis, and this repo hasn't been warning-clean
+  audited yet — flipping that on can follow once it has been.
+
 ## [0.8.0] - 2026-09-28
 
 ### Removed

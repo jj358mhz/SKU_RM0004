@@ -1,0 +1,21 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y gcc make
+
+      # Warnings are surfaced but non-fatal here, matching the plain `make` the
+      # ansible-homelab uctronics_rack role runs on real Pis (roles/uctronics_rack/defaults
+      # sets no CFLAGS override) -- this build isn't meant to gate on warnings, just catch
+      # outright compile failures and make warnings visible in CI output.
+      - name: Build
+        run: make clean && make
