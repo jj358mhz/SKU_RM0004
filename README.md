@@ -6,7 +6,7 @@ has gone unmaintained. See `CHANGELOG.md` for what's changed relative to upstrea
 `CLAUDE.md` for how this repo is built/deployed in practice (pinned to a specific commit via
 Ansible).
 
-The project supports running on RaspberryPi, Ubuntu, [HomeAssistant](https://github.com/UCTRONICS/UCTRONICS_RM0004_HA),You can also use Python to call compiled DLLs on these platforms.
+The project supports running on RaspberryPi, Ubuntu, [HomeAssistant](https://github.com/UCTRONICS/UCTRONICS_RM0004_HA). You can also use Python to call compiled DLLs on these platforms.
 # RaspberryPi
 
 ## Deployment service
