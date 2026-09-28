@@ -51,9 +51,10 @@ SPI fully disabled. `get_temperature()` also reads `/sys/class/thermal/thermal_z
 ## Contribution workflow
 
 `main` is branch-protected — always work on a branch and open a PR, never push/commit
-directly to `main` (matching the convention in `ansible-homelab`). There is currently no CI
-(see [issue #9](https://github.com/jj358mhz/SKU_RM0004/issues/9)), so no required status
-checks should be assumed to exist — don't rely on GitHub Actions catching anything here yet.
+directly to `main` (matching the convention in `ansible-homelab`). `.github/workflows/build.yml`
+runs `make clean && make` on every push/PR (as of v0.9.0), but it is **not** a required status
+check — don't assume a red build blocks merging; check the Actions tab or PR checks
+explicitly. Warnings (`-Wall -Wextra`) are visible in the build log but non-fatal.
 
 ## Known issues
 
@@ -69,7 +70,9 @@ v0.2.0, v0.3.0, v0.4.0, and v0.5.0 respectively. [#5](https://github.com/jj358mh
 [#6](https://github.com/jj358mhz/SKU_RM0004/issues/6)/[#7](https://github.com/jj358mhz/SKU_RM0004/issues/7)
 (`lcd_draw_image()` math + `lcd_write_char()` bounds check) as of v0.7.0, and
 [#8](https://github.com/jj358mhz/SKU_RM0004/issues/8) (dead code, unit inconsistency,
-cosmetic cleanup) as of v0.8.0. Remaining open issues (#9, #10) are enhancements, not bugs.
+cosmetic cleanup) as of v0.8.0, and [#9](https://github.com/jj358mhz/SKU_RM0004/issues/9)
+(CI build check) as of v0.9.0. [#10](https://github.com/jj358mhz/SKU_RM0004/issues/10)
+(runtime-configurable display prefs) remains open — an enhancement, not a bug.
 
 ## Keeping docs current
 
