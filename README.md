@@ -1,11 +1,18 @@
 # SKU_RM0004
+
+This is [jj358mhz's fork](https://github.com/jj358mhz/SKU_RM0004) of
+[UCTRONICS/SKU_RM0004](https://github.com/UCTRONICS/SKU_RM0004), maintained because upstream
+has gone unmaintained. See `CHANGELOG.md` for what's changed relative to upstream and
+`CLAUDE.md` for how this repo is built/deployed in practice (pinned to a specific commit via
+Ansible).
+
 The project supports running on RaspberryPi, Ubuntu, [HomeAssistant](https://github.com/UCTRONICS/UCTRONICS_RM0004_HA),You can also use Python to call compiled DLLs on these platforms.
 # RaspberryPi
 
 ## Deployment service
 >  Clone SKU_RM0004 library 
 ```bash
-git clone https://github.com/UCTRONICS/SKU_RM0004.git
+git clone https://github.com/jj358mhz/SKU_RM0004.git
 ```
 > Compile 
 ```bash
