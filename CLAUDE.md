@@ -58,21 +58,13 @@ explicitly. Warnings (`-Wall -Wextra`) are visible in the build log but non-fata
 
 ## Known issues
 
-A full audit of the C driver code turned up a number of pre-existing bugs (some real,
-some latent/dormant), filed as GitHub issues — see the "Known issues" section of
-`CHANGELOG.md` for the current list with links. The four most impactful — wrong disk-usage
-percentage ([#2](https://github.com/jj358mhz/SKU_RM0004/issues/2)), overstated RAM usage
-percentage ([#14](https://github.com/jj358mhz/SKU_RM0004/issues/14)), a crash on missing
-thermal zone ([#4](https://github.com/jj358mhz/SKU_RM0004/issues/4)), and corrupted CPU load
-readings above ~10% ([#3](https://github.com/jj358mhz/SKU_RM0004/issues/3)) — are fixed as of
-v0.2.0, v0.3.0, v0.4.0, and v0.5.0 respectively. [#5](https://github.com/jj358mhz/SKU_RM0004/issues/5)
-(`lcd_fill_rectangle()` zero-width underflow + magic buffer size) is fixed as of v0.6.0, and
-[#6](https://github.com/jj358mhz/SKU_RM0004/issues/6)/[#7](https://github.com/jj358mhz/SKU_RM0004/issues/7)
-(`lcd_draw_image()` math + `lcd_write_char()` bounds check) as of v0.7.0, and
-[#8](https://github.com/jj358mhz/SKU_RM0004/issues/8) (dead code, unit inconsistency,
-cosmetic cleanup) as of v0.8.0, and [#9](https://github.com/jj358mhz/SKU_RM0004/issues/9)
-(CI build check) as of v0.9.0. [#10](https://github.com/jj358mhz/SKU_RM0004/issues/10)
-(runtime-configurable display prefs) remains open — an enhancement, not a bug.
+A full audit of the C driver code (`hardware/`, `project/`) turned up 9 pre-existing issues
+(some real bugs, some latent/dormant, some enhancements), filed and fixed as
+[#2](https://github.com/jj358mhz/SKU_RM0004/issues/2)-[#10](https://github.com/jj358mhz/SKU_RM0004/issues/10)
+across `v0.2.0`-`v0.10.0` — see `CHANGELOG.md` for the full list with details and links. None
+remain open as of `v0.10.0`. If a new one turns up, file it the same way: a GitHub issue with
+file:line references and a concrete repro/impact, fixed on a branch + PR, `CHANGELOG.md`
+bumped in the same PR, tagged and released once merged.
 
 ## Keeping docs current
 

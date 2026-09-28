@@ -293,7 +293,7 @@ void lcd_display_cpuLoad(void)
     cpuLoad = get_cpu_message();
     sprintf(cpuStr, "%d", cpuLoad);
     lcd_fill_rectangle(0, 20, ST7735_WIDTH, 5, ST7735_BLUE);
-    if (IP_SWITCH == IP_DISPLAY_OPEN)
+    if (g_display_config.ip_switch == IP_DISPLAY_OPEN)
     {
         lcd_write_string(0, 0, "IP:", Font_8x16, ST7735_WHITE, ST7735_BLACK);
         strcpy(iPSource, get_ip_address_new());                                       // Get the IP address of the device's wireless network card
@@ -301,7 +301,7 @@ void lcd_display_cpuLoad(void)
     }
     else
     {
-        lcd_write_string(0, 0, CUSTOM_DISPLAY, Font_8x16, ST7735_WHITE, ST7735_BLACK); // Send the IP address to the lower machine
+        lcd_write_string(0, 0, g_display_config.custom_display, Font_8x16, ST7735_WHITE, ST7735_BLACK);
     }
     lcd_write_string(36, 35, "CPU:", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     lcd_write_string(80, 35, cpuStr, Font_11x18, ST7735_WHITE, ST7735_BLACK);
@@ -336,7 +336,7 @@ void lcd_display_temp(void)
     lcd_fill_rectangle(0, 35, ST7735_WIDTH, 20, ST7735_BLACK);
     lcd_write_string(30, 35, "TEMP:", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     lcd_write_string(85, 35, tempStr, Font_11x18, ST7735_WHITE, ST7735_BLACK);
-    if (TEMPERATURE_TYPE == FAHRENHEIT)
+    if (g_display_config.temperature_type == FAHRENHEIT)
     {
         lcd_write_string(118, 35, "F", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     }
@@ -344,7 +344,7 @@ void lcd_display_temp(void)
     {
         lcd_write_string(118, 35, "C", Font_11x18, ST7735_WHITE, ST7735_BLACK);
     }
-    if (TEMPERATURE_TYPE == FAHRENHEIT)
+    if (g_display_config.temperature_type == FAHRENHEIT)
     {
         temp -= 32;
         temp /= 1.8;
