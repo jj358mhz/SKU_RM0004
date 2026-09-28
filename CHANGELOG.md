@@ -10,6 +10,11 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-28
+
+Baseline release for this fork: the disk-usage fix cherry-picked from upstream, plus a full
+audit of the driver code with findings filed as issues for follow-up.
+
 ### Fixed
 - Cherry-picked upstream [UCTRONICS/SKU_RM0004#47](https://github.com/UCTRONICS/SKU_RM0004/pull/47)
   (open, unmerged upstream): `get_hard_disk_memory()` now uses `statvfs("/")` instead of
