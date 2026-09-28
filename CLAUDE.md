@@ -67,8 +67,9 @@ readings above ~10% ([#3](https://github.com/jj358mhz/SKU_RM0004/issues/3)) — 
 v0.2.0, v0.3.0, v0.4.0, and v0.5.0 respectively. [#5](https://github.com/jj358mhz/SKU_RM0004/issues/5)
 (`lcd_fill_rectangle()` zero-width underflow + magic buffer size) is fixed as of v0.6.0, and
 [#6](https://github.com/jj358mhz/SKU_RM0004/issues/6)/[#7](https://github.com/jj358mhz/SKU_RM0004/issues/7)
-(`lcd_draw_image()` math + `lcd_write_char()` bounds check) as of v0.7.0. Remaining open
-issues (#8-#10) are lower-severity or currently dormant.
+(`lcd_draw_image()` math + `lcd_write_char()` bounds check) as of v0.7.0, and
+[#8](https://github.com/jj358mhz/SKU_RM0004/issues/8) (dead code, unit inconsistency,
+cosmetic cleanup) as of v0.8.0. Remaining open issues (#9, #10) are enhancements, not bugs.
 
 ## Keeping docs current
 
