@@ -345,22 +345,18 @@ void lcd_display_temp(void)
 void lcd_display_disk(void)
 {
 
-    uint16_t diskMemSize = 0;
-    uint16_t diskUseMemSize = 0;
     uint32_t sdMemSize = 0;
     uint32_t sdUseMemSize = 0;
 
-    uint16_t memTotal = 0;
-    uint16_t useMemTotal = 0;
     uint16_t residue = 0;
     uint8_t residueStr[10] = {0};
 
+    // get_hard_disk_memory() is not used here: on this hardware it reads the same root
+    // filesystem as get_sd_memory() (both hardcode "/"), so combining them double-counts
+    // a single disk instead of reporting a genuinely separate SD card + hard disk.
     get_sd_memory(&sdMemSize, &sdUseMemSize);
-    get_hard_disk_memory(&diskMemSize, &diskUseMemSize);
 
-    memTotal = sdMemSize + diskMemSize;
-    useMemTotal = sdUseMemSize + diskUseMemSize;
-    residue = useMemTotal * 1.0 / memTotal * 100;
+    residue = sdUseMemSize * 1.0 / sdMemSize * 100;
     sprintf(residueStr, "%d", residue);
 
     lcd_fill_rectangle(0, 35, ST7735_WIDTH, 20, ST7735_BLACK);

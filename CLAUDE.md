@@ -59,11 +59,11 @@ checks should be assumed to exist — don't rely on GitHub Actions catching anyt
 
 A full audit of the C driver code turned up a number of pre-existing bugs (some real,
 some latent/dormant), filed as GitHub issues — see the "Known issues" section of
-`CHANGELOG.md` for the current list with links. The most impactful one:
-`lcd_display_disk()` double-counts the same root filesystem via `get_sd_memory()` +
-`get_hard_disk_memory()` in mismatched units (GB vs MB), compounded by a `uint16_t` overflow
-past 64GB — the front-panel LCD's disk-usage percentage is currently wrong on any host with a
-root filesystem over ~64GB ([#2](https://github.com/jj358mhz/SKU_RM0004/issues/2)).
+`CHANGELOG.md` for the current list with links. The most impactful one, wrong disk-usage
+percentage on the LCD ([#2](https://github.com/jj358mhz/SKU_RM0004/issues/2)), is fixed as of
+v0.2.0. Remaining open issues are lower-severity or currently dormant (#3, #5-#10) except
+[#4](https://github.com/jj358mhz/SKU_RM0004/issues/4) (`get_temperature()` can crash on an
+unchecked `fopen()`), which is next in line.
 
 ## Keeping docs current
 

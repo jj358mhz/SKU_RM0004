@@ -10,6 +10,18 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-28
+
+### Fixed
+- [#2](https://github.com/jj358mhz/SKU_RM0004/issues/2) — Disk usage % on the LCD was wrong
+  (e.g. showing 53% on a host at ~22% real usage). `lcd_display_disk()` no longer adds
+  `get_hard_disk_memory()`'s reading to `get_sd_memory()`'s — both hardcode `statfs`/`statvfs`
+  on `"/"`, so combining them double-counted a single disk. The display now uses
+  `get_sd_memory()` alone. Also: `get_sd_memory()` now checks `statfs()`'s return value instead
+  of using uninitialized data on failure, and `get_hard_disk_memory()`'s output widened from
+  `uint16_t` to `uint32_t` so it no longer overflows past 64GB (it's currently unused by any
+  display, but is fixed for future reuse against a genuinely separate secondary disk mount).
+
 ## [0.1.0] - 2026-09-28
 
 Baseline release for this fork: the disk-usage fix cherry-picked from upstream, plus a full
@@ -25,12 +37,6 @@ audit of the driver code with findings filed as issues for follow-up.
 A full audit of the C driver code (`hardware/`, `project/`) turned up several pre-existing
 bugs, filed as GitHub issues:
 
-- [#2](https://github.com/jj358mhz/SKU_RM0004/issues/2) — Disk usage % is wrong: `lcd_display_disk()`
-  double-counts the same root filesystem via `get_sd_memory()` + `get_hard_disk_memory()`,
-  compounded by a `uint16_t` MB overflow past 64GB and an unchecked `statfs()` call.
-  Note: cherry-picking #1 made this *more* visible in practice, since it made
-  `get_hard_disk_memory()` return real (non-zero) numbers on hosts where it previously
-  silently returned 0 (any root device not literally named `/dev/sda`).
 - [#3](https://github.com/jj358mhz/SKU_RM0004/issues/3) — CPU load readings corrupted above ~10%
   (buffer too small for `popen`'s own output).
 - [#4](https://github.com/jj358mhz/SKU_RM0004/issues/4) — `get_temperature()` can crash on an
