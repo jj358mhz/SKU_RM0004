@@ -10,6 +10,16 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-09-28
+
+All 9 issues found during the full driver-code audit ([#2](https://github.com/jj358mhz/SKU_RM0004/issues/2)-[#10](https://github.com/jj358mhz/SKU_RM0004/issues/10))
+are now fixed, deployed to every `uctronics_rack` host, and this fork has its own CI build
+check — marking this the first stable release.
+
+### Fixed
+- Typo in `README.md`: missing space/period after the HomeAssistant link
+  (`...HA),You can also...` → `...HA). You can also...`).
+
 ## [0.10.0] - 2026-09-28
 
 ### Added
