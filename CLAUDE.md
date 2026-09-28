@@ -59,11 +59,12 @@ checks should be assumed to exist — don't rely on GitHub Actions catching anyt
 
 A full audit of the C driver code turned up a number of pre-existing bugs (some real,
 some latent/dormant), filed as GitHub issues — see the "Known issues" section of
-`CHANGELOG.md` for the current list with links. The most impactful one, wrong disk-usage
-percentage on the LCD ([#2](https://github.com/jj358mhz/SKU_RM0004/issues/2)), is fixed as of
-v0.2.0. Remaining open issues are lower-severity or currently dormant (#3, #5-#10) except
-[#4](https://github.com/jj358mhz/SKU_RM0004/issues/4) (`get_temperature()` can crash on an
-unchecked `fopen()`), which is next in line.
+`CHANGELOG.md` for the current list with links. The two most impactful, wrong disk-usage
+percentage ([#2](https://github.com/jj358mhz/SKU_RM0004/issues/2)) and overstated RAM usage
+percentage ([#14](https://github.com/jj358mhz/SKU_RM0004/issues/14)), are fixed as of v0.2.0
+and v0.3.0 respectively. Remaining open issues are lower-severity or currently dormant (#3,
+#5-#10) except [#4](https://github.com/jj358mhz/SKU_RM0004/issues/4) (`get_temperature()` can
+crash on an unchecked `fopen()`), which is next in line.
 
 ## Keeping docs current
 

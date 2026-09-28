@@ -114,6 +114,11 @@ char* get_ip_address_new(void)
 
 /*
 * get ram memory
+*
+* *freeram is populated from /proc/meminfo's MemAvailable, not MemFree: MemFree excludes
+* the kernel's disk cache/buffers, which Linux uses opportunistically for any unused RAM and
+* reclaims instantly under pressure. Using MemFree overstates "used" memory by however much
+* is sitting in cache (matches what `free -h`'s "available" column reports).
 */
 void get_cpu_memory(float *Totalram,float *freeram)
 {
@@ -139,13 +144,13 @@ void get_cpu_memory(float *Totalram,float *freeram)
             {
              *Totalram=value/1000.0/1000.0;
             }
-            else if(strcmp(famer,"MemFree:")==0)
+            else if(strcmp(famer,"MemAvailable:")==0)
             {
               *freeram=value/1000.0/1000.0;
             }
         }
-        fclose(fp);    
-    }   
+        fclose(fp);
+    }
 }
 
 /*
