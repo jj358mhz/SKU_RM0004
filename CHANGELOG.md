@@ -10,6 +10,15 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-28
+
+### Fixed
+- [#14](https://github.com/jj358mhz/SKU_RM0004/issues/14) — RAM usage % on the LCD was
+  overstated (e.g. ~34% shown vs ~12% real usage on a host with 8GB RAM and 1.9GB of disk
+  cache). `get_cpu_memory()` now reads `MemAvailable` from `/proc/meminfo` instead of
+  `MemFree` — `MemFree` doesn't count the kernel's disk cache/buffers, which Linux uses
+  opportunistically for any unused RAM and reclaims instantly under pressure.
+
 ## [0.2.0] - 2026-09-28
 
 ### Fixed
