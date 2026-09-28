@@ -136,9 +136,13 @@ void lcd_write_str(uint16_t x, uint16_t y, char *str, FontType font, uint16_t co
  */
 void lcd_fill_rectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color)
 {
-    uint8_t buff[320] = {0};
+    // Sized from ST7735_WIDTH rather than a hardcoded number, so it can't silently fall out
+    // of sync with the panel width st7735.h is configured for.
+    uint8_t buff[ST7735_WIDTH * sizeof(uint16_t)] = {0};
     uint16_t count = 0;
     // clipping
+    if ((w == 0) || (h == 0))
+        return;
     if ((x >= ST7735_WIDTH) || (y >= ST7735_HEIGHT))
         return;
     if ((x + w - 1) >= ST7735_WIDTH)

@@ -10,6 +10,17 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-09-28
+
+### Fixed
+- [#5](https://github.com/jj358mhz/SKU_RM0004/issues/5) — `lcd_fill_rectangle()`: a `w == 0`
+  call underflowed `w - 1` (a `uint16_t`) to `65535`, so a zero-width rectangle paradoxically
+  filled up to the max width instead of being a no-op; now guarded with an early return. Also,
+  the pixel buffer was a hardcoded `buff[320]`, only correct because `ST7735_WIDTH` currently
+  happens to be `160` — `st7735.h` has commented-out alternate panel configs with different
+  widths that would have silently stack-overflowed this buffer if ever switched to. Now sized
+  from `ST7735_WIDTH * sizeof(uint16_t)` so it can't fall out of sync.
+
 ## [0.5.0] - 2026-09-28
 
 ### Fixed
