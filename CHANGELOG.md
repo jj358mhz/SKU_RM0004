@@ -10,6 +10,17 @@ deployed via Ansible).
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-09-28
+
+### Fixed
+- [#3](https://github.com/jj358mhz/SKU_RM0004/issues/3) — CPU load readings were corrupted
+  for any load ≥ 10%: `get_cpu_message()` parsed `top`/`awk` output into buffers too small to
+  hold it (`"12.34"` needs 6 bytes, `usCpuBuff`/`syCpubuff` were `[5]`), silently truncating
+  via `fgets()`. Replaced the whole `popen("top ...")`/`awk` pipeline with a direct read of
+  `/proc/stat` (two samples 200ms apart, delta of busy vs. total jiffies) — cheaper (no shell
+  spawn per read) and structurally eliminates this class of bug rather than just widening a
+  buffer.
+
 ## [0.4.0] - 2026-09-28
 
 ### Fixed

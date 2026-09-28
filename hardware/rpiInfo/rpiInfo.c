@@ -218,25 +218,65 @@ uint8_t get_temperature(void)
 }
 
 /*
+* Aggregate CPU jiffie counters from the first line of /proc/stat.
+*/
+typedef struct {
+    unsigned long long user, nice, sys, idle, iowait, irq, softirq, steal;
+} cpu_stat_t;
+
+static int read_cpu_stat(cpu_stat_t *out)
+{
+    FILE *fp = fopen("/proc/stat", "r");
+    if (fp == NULL)
+    {
+        return 0;
+    }
+    char label[8] = {0};
+    int fields = fscanf(fp, "%7s %llu %llu %llu %llu %llu %llu %llu %llu",
+                         label,
+                         &out->user, &out->nice, &out->sys, &out->idle,
+                         &out->iowait, &out->irq, &out->softirq, &out->steal);
+    fclose(fp);
+    return fields == 9;
+}
+
+/*
 * Get cpu usage
+*
+* Reads /proc/stat directly instead of shelling out to `top`/`awk`: cheaper (no process
+* spawn per read), and avoids relying on parsing another program's text output.  Two samples
+* 200ms apart are needed since /proc/stat reports cumulative jiffies since boot, not an
+* instantaneous load.
 */
 uint8_t get_cpu_message(void)
 {
-    FILE * fp;
-    uint8_t usCpuBuff[5] = {0};
-    uint8_t syCpubuff[5] = {0};
-    int usCpu = 0;
-    int syCpu = 0;
+    cpu_stat_t s1, s2;
 
-    fp=popen("top -bn1 | grep %Cpu | awk '{printf \"%.2f\", $(2)}'","r");    //Gets the load on the CPU
-    fgets(usCpuBuff, sizeof(usCpuBuff),fp);                                    //Read the user CPU load
-    pclose(fp);    
+    if (!read_cpu_stat(&s1))
+    {
+        return 0;
+    }
 
-    fp=popen("top -bn1 | grep %Cpu | awk '{printf \"%.2f\", $(4)}'","r");    //Gets the load on the CPU
-    fgets(syCpubuff, sizeof(syCpubuff),fp);                                    //Read the system CPU load
-    pclose(fp);   
-    usCpu = atoi(usCpuBuff);
-    syCpu = atoi(syCpubuff);
-    return usCpu+syCpu;
-  
+    usleep(200000);
+
+    if (!read_cpu_stat(&s2))
+    {
+        return 0;
+    }
+
+    unsigned long long idle1 = s1.idle + s1.iowait;
+    unsigned long long idle2 = s2.idle + s2.iowait;
+    unsigned long long total1 = s1.user + s1.nice + s1.sys + s1.idle + s1.iowait + s1.irq + s1.softirq + s1.steal;
+    unsigned long long total2 = s2.user + s2.nice + s2.sys + s2.idle + s2.iowait + s2.irq + s2.softirq + s2.steal;
+
+    if (total2 <= total1)
+    {
+        return 0;
+    }
+
+    unsigned long long totalDelta = total2 - total1;
+    unsigned long long idleDelta = idle2 - idle1;
+    unsigned long long busyDelta = totalDelta - idleDelta;
+
+    return (uint8_t)(busyDelta * 100 / totalDelta);
 }
