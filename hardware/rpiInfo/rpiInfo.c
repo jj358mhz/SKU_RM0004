@@ -154,7 +154,11 @@ void get_cpu_memory(float *Totalram,float *freeram)
 void get_sd_memory(uint32_t *MemSize, uint32_t *freesize)
 {
     struct statfs diskInfo;
-    statfs("/",&diskInfo);
+    if (statfs("/", &diskInfo) != 0) {
+        *MemSize = 0;
+        *freesize = 0;
+        return;
+    }
     unsigned long long blocksize = diskInfo.f_bsize;// The number of bytes per block
     unsigned long long totalsize = blocksize*diskInfo.f_blocks;//Total number of bytes	
     *MemSize=(unsigned int)(totalsize>>30);
@@ -169,7 +173,7 @@ void get_sd_memory(uint32_t *MemSize, uint32_t *freesize)
 /*
 * get hard disk memory
 */
-uint8_t get_hard_disk_memory(uint16_t *diskMemSize, uint16_t *useMemSize)
+uint8_t get_hard_disk_memory(uint32_t *diskMemSize, uint32_t *useMemSize)
 {
     struct statvfs fs;
     if (statvfs("/", &fs) != 0) {
@@ -182,8 +186,8 @@ uint8_t get_hard_disk_memory(uint16_t *diskMemSize, uint16_t *useMemSize)
     unsigned long long free  = (unsigned long long) fs.f_bfree  * fs.f_frsize;
     unsigned long long used  = total - free;
 
-    *diskMemSize = (uint16_t)(total >> 20);  // MB
-    *useMemSize  = (uint16_t)(used  >> 20);  // MB
+    *diskMemSize = (uint32_t)(total >> 20);  // MB
+    *useMemSize  = (uint32_t)(used  >> 20);  // MB
 
     return 0;
 }
